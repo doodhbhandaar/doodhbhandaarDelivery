@@ -1,6 +1,7 @@
 package com.doodhbhandaar.deliverydoodhbhandaar;
 
-public class CustomerData {
+
+public class CustomerData  {
 
     public String latitude;
     public String longitude;
@@ -8,5 +9,10 @@ public class CustomerData {
     public String customerPhonenumber;
     public String customerName;
     public String customerAddress;
+    public String deliverBoyName;
+    public String deliveryBoyContactNumber;
+    public Boolean deliveryType;
+
+
 
 }

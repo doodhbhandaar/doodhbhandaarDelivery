@@ -49,6 +49,9 @@ public class TodayDeliveryList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today_delivery_list);
 
+        Intent i=getIntent();
+        deliveryBoyPhoneNumber=i.getStringExtra("contactNo");
+
         recyclerView=findViewById(R.id.recyclerView);
         startButton=findViewById(R.id.start_button);
         progressDialog=new ProgressDialog(this);
@@ -57,7 +60,7 @@ public class TodayDeliveryList extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        deliveryBoyPhoneNumber="10";
+
         customersReference = FirebaseInstanse.getDatabaseInstance().getReference("CUSTOMERS");
 
         Calendar calendar = Calendar.getInstance();

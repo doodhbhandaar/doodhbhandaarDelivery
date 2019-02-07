@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -38,6 +40,7 @@ public class TodayDeliveryList extends AppCompatActivity {
     double initialLatitude=25.4591136;
     double initialLongitude=78.6404257;
     boolean isMorning;
+    boolean isEvening;
     ArrayList<CustomerData> unsortedCustomerData=new ArrayList<>();
     ProgressDialog progressDialog;
 
@@ -62,7 +65,47 @@ public class TodayDeliveryList extends AppCompatActivity {
         if(hour<=13)
             isMorning=true;
         else
-            isMorning=false;
+            isEvening=true;
+        changeData();
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        isEvening=false;
+        isMorning=false;
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.morning_menu:
+                 isMorning=true;
+                 break;
+            case R.id.evening_menu:
+                isEvening=true;
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        progressDialog.setMessage("Loading...");
+
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        unsortedCustomerData.clear();
+        customerDataArrayList.clear();
+        DataTransfer.customerDataTransfer.clear();
+        changeData();
+        return true;
+    }
+
+    private void changeData() {
+
+
 
         Query customerQuery = customersReference.orderByChild("deliveryBoyContactNumber").equalTo(deliveryBoyPhoneNumber);
 
@@ -72,16 +115,16 @@ public class TodayDeliveryList extends AppCompatActivity {
                 for(DataSnapshot d:dataSnapshot.getChildren()){
 //                    Log.i("c00","enter");
                     CustomerData customerData = d.getValue(CustomerData.class);
-                   // if(customerData.isMorning && isMorning)
-                     //   unsortedCustomerData.add(customerData);
-                    //else if(customerData.isEvening && !isMorning)
+                    if(customerData.isMorning && isMorning)
+                        unsortedCustomerData.add(customerData);
+                     if(customerData.isEvening && isEvening)
                         unsortedCustomerData.add(customerData);
                 }
                 progressDialog.dismiss();
                 sortDeliveries();
                 Log.i("c00",customerDataArrayList.size()+" "+unsortedCustomerData.size());
-                customerAdapter.notifyDataSetChanged();
                 DataTransfer.customerDataTransfer.addAll(customerDataArrayList);
+                customerAdapter.notifyDataSetChanged();
 
             }
 
@@ -110,8 +153,8 @@ public class TodayDeliveryList extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
+
 
     private void sortDeliveries() {
         double[][] sortArray = new double[unsortedCustomerData.size()][2];

@@ -130,7 +130,7 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
         recyclerList=new ArrayList<>();
         customerAdapter=new CustomerAdapter(this,recyclerList,clickInterface);
         recyclerView.setAdapter(customerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
 
 

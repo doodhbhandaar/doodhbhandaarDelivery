@@ -11,7 +11,8 @@ public class CustomerData  {
     public String customerAddress;
     public String deliverBoyName;
     public String deliveryBoyContactNumber;
-    public Boolean deliveryType;
+    public Boolean isMorning=false;
+    public Boolean isEvening=false;
 
 
 

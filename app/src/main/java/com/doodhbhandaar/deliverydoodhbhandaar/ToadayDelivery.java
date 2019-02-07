@@ -1,5 +1,6 @@
 package com.doodhbhandaar.deliverydoodhbhandaar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
     Marker prevMarker;
     int Index=0;
     int MaxSize=0;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -54,7 +56,10 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
          recyclerView=findViewById(R.id.recyclerView_present);
          previousButton=findViewById(R.id.previous_button);
          nextButton=findViewById(R.id.next_button);
-
+        progressDialog = new ProgressDialog(this);
+         progressDialog.setMessage("Loading...");
+         progressDialog.setCanceledOnTouchOutside(false);
+         progressDialog.show();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -114,6 +119,7 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
    }
 
     private void mapIsready() {
+        progressDialog.dismiss();
 
         clickInterface=new ClickInterface() {
             @Override
@@ -174,7 +180,7 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
     private void addValueOnMap(LatLng loc,String name) {
 
         //LatLng biet = new LatLng(25.4591136, 78.6404257);
-        if(Index!=0&&prevMarker!=null){
+        if(prevMarker!=null){
             prevMarker.remove();
         }
         prevMarker = mMap.addMarker(new MarkerOptions().position(loc).title(name));

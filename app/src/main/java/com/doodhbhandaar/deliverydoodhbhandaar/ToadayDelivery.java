@@ -124,7 +124,7 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
         recyclerList=new ArrayList<>();
         customerAdapter=new CustomerAdapter(this,recyclerList,clickInterface);
         recyclerView.setAdapter(customerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
 
 
@@ -174,7 +174,7 @@ public class ToadayDelivery extends  FragmentActivity implements OnMapReadyCallb
     private void addValueOnMap(LatLng loc,String name) {
 
         //LatLng biet = new LatLng(25.4591136, 78.6404257);
-        if(Index!=0&&prevMarker!=null){
+        if(prevMarker!=null){
             prevMarker.remove();
         }
         prevMarker = mMap.addMarker(new MarkerOptions().position(loc).title(name));
